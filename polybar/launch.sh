@@ -4,6 +4,9 @@ dir="$HOME/.config/polybar"
 themes=(`ls --hide="launch.sh" $dir`)
 
 launch_bar() {
+  arg1=$2
+  echo "$arg1"
+
 	# Terminate already running bar instances
 	killall -q polybar
 
@@ -16,8 +19,10 @@ launch_bar() {
 		polybar -q bottom -c "$dir/$style/config.ini" &
 	elif [[ "$style" == "pwidgets" ]]; then
 		bash "$dir"/pwidgets/launch.sh --main
+	elif [[ "$arg1" == "twitch" ]]; then
+		polybar -q twitch -c "$dir/$style/config.ini" &
 	else
-		polybar -q main -c "$dir/$style/config.ini" &	
+		polybar -q main -c "$dir/$style/config.ini" &
 	fi
 }
 
@@ -51,7 +56,11 @@ elif [[ "$1" == "--grayblocks" ]]; then
 
 elif [[ "$1" == "--blocks" ]]; then
 	style="blocks"
-	launch_bar
+	launch_bar twitch
+
+elif [[ "$1" == "--blocks" && "$2" == "--twitch" ]]; then
+	style="blocks"
+	launch_bar twitch
 
 elif [[ "$1" == "--colorblocks" ]]; then
 	style="colorblocks"
@@ -61,13 +70,24 @@ elif [[ "$1" == "--forest" ]]; then
 	style="forest"
 	launch_bar
 
+elif [[ "$1" == "--pwidgets" ]]; then
+	style="pwidgets"
+	launch_bar
+
+elif [[ "$1" == "--panels" ]]; then
+	style="panels"
+	launch_bar
+
 else
 	cat <<- EOF
-	Usage : launch.sh --theme
-		
-	Available Themes :
+	Usage : launch.sh --theme --option
+
+	Available themes:
 	--blocks    --colorblocks    --cuts      --docky
 	--forest    --grayblocks     --hack      --material
-	--shades    --shapes
+	--panels    --pwidgets       --shades    --shapes
+
+  Available options:
+  --twitch
 	EOF
 fi

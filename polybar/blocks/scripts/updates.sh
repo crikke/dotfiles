@@ -2,7 +2,7 @@
 
 NOTIFY_ICON=/usr/share/icons/Papirus/32x32/apps/system-software-update.svg
 
-get_total_updates() { UPDATES=$(checkupdates 2>/dev/null | wc -l); }
+get_total_updates() { UPDATES=$(yay -Qu --aur 2> /dev/null | grep -v local | wc -l); }
 
 while true; do
     get_total_updates
@@ -11,7 +11,7 @@ while true; do
     if hash notify-send &>/dev/null; then
         if (( UPDATES > 50 )); then
             notify-send -u critical -i $NOTIFY_ICON \
-                "You really need to update!!" "$UPDATES New packages"
+                "You really need to update!" "$UPDATES New packages"
         elif (( UPDATES > 25 )); then
             notify-send -u normal -i $NOTIFY_ICON \
                 "You should update soon" "$UPDATES New packages"
