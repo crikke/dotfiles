@@ -27,6 +27,7 @@ let g:go_imports_mode = 'goimports'
 
 call plug#begin("~/.vim/plugged") 
  Plug 'dracula/vim'
+ Plug 'liuchengxu/vista.vim'
  Plug 'gruvbox-community/gruvbox'
  Plug 'ryanoasis/vim-devicons'
  Plug 'srcery-colors/srcery-vim'
@@ -54,6 +55,7 @@ let g:srcery_bg_passthrough = 1
 colorscheme srcery
 
 
+
 set splitright
 set splitbelow
 
@@ -77,6 +79,8 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
  nnoremap <C-n> :NERDTreeFocus <CR>
  nnoremap <F3> :NERDTreeToggle <CR>
 
+ " go-vim bindings
+au FileType go nmap <leader>t :GoTestFunc -tags=integration,unit<CR>
 
 " Press i to enter insert mode, and ii to exit insert mode.
 :inoremap ii <Esc>
