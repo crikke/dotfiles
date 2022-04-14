@@ -1,4 +1,4 @@
-set nocompatible            " disable compatibility to old-time vi
+ set nocompatible            " disable compatibility to old-time vi
 set showmatch               " show matching 
 set ignorecase              " case insensitive 
 set mouse=v                 " middle-click paste with 
@@ -22,8 +22,9 @@ set ttyfast                 " Speed up scrolling in Vim
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
 
+noremap gus :silent !setxkbmap -layout us<enter><C-L>
+noremap gsv :silent !setxkbmap -layout se<enter><C-L>
 
-let g:go_imports_mode = 'goimports'
 
 call plug#begin("~/.vim/plugged") 
  Plug 'dracula/vim'
@@ -31,7 +32,6 @@ call plug#begin("~/.vim/plugged")
  Plug 'gruvbox-community/gruvbox'
  Plug 'ryanoasis/vim-devicons'
  Plug 'srcery-colors/srcery-vim'
- Plug 'SirVer/ultisnips'
  Plug 'honza/vim-snippets'
  Plug 'scrooloose/nerdtree'
  Plug 'preservim/nerdcommenter'
@@ -42,8 +42,13 @@ call plug#begin("~/.vim/plugged")
  Plug 'junegunn/fzf.vim'
  Plug 'vim-airline/vim-airline'
  Plug 'vim-airline/vim-airline-themes'
+ Plug 'prabirshrestha/vim-lsp'
 call plug#end()
 
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
 
 " color schemes
 if (has("termguicolors"))
@@ -112,6 +117,11 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
+
+" FZF 
+nnoremap ; :FZF<CR>
+
+
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
@@ -131,7 +141,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " Use `[c` and `]c` to navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
+nmap <silent> <Leader>f <Plug>(coc-fix-current)
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -164,10 +174,27 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+
+let g:go_def_mode ='gopls'
+let g:go_info_mode ='gopls'
 " disable vim-go :GoDef short cut (gd)
 " this is handled by LanguageClient [LC]
-let g:go_def_mapping_enabled = 0
+let g:go_def_mapping_enabled = -1
+let g:go_highlight_build_constraints = 0
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
 
-let g:airline#extensions#tabline#enabled=1
+let g:go_auto_sameids = 0
+let g:go_auto_type_info = 1
+
+let g:airline#extensions#tabline#enabled=0
 let g:airline_solarized_bg='dark'
 let g:airline_theme='onedark'
+let g:go_imports_mode = 'goimports'
+
+

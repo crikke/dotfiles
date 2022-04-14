@@ -1,12 +1,28 @@
 {
+    "suggest.noselect": false,
+    "diagnostic.errorSign": "✘",
+    "diagnostic.warningSign": "!",
+    "diagnostic.infoSign": "?",
     "diagnostic.checkCurrentLine": true,
     "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+    "coc.preferences.useQuickfixForLocations": true,
+    "coc.preferences.extensionUpdateCheck": "never",
+    "coc.preferences.messageLevel": "error",
+    "coc.preferences.snippets.enable": true,
+    "coc.preferences.formatOnType": true,
+    "coc.preferences.hoverTarget": "float",
+    "go.goplsOptions": {
+        "buildFlags": "unit,integration"
+    },
     "languageserver": {
         "golang": {
-          "command": "gopls",
-          "rootPatterns": ["go.mod"],
-          "filetypes": ["go"]
+          "command": "~/go/bin/gopls",
+          "trace.server": "verbose",
+          "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+          "filetypes": ["go"],
+          "initializationOptions": {
+            "usePlaceholders": true
+          }
         }
     }
 }
-
